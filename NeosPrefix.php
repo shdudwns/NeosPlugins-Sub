@@ -105,7 +105,7 @@ class NeosPrefix extends PluginBase implements Listener
 		$this->signbase = new Config($this->getDataFolder() . 'sign.json', Config::JSON);
 		$this->sign = $this->signbase->getAll();
 		
-		$this->msgbase = new Config($this->getDataFolder() . 'message.yml', Config::YAML, [
+				$this->msgbase = new Config($this->getDataFolder() . 'message.yml', Config::YAML, [
 		
 			'플러그인 칭호' => ' §a§l[NeosPrefix] §r§f',
 			'시스템 종료하기' => "§l시스템 종료하기\n§r§8팝업을 종료합니다",
@@ -122,7 +122,7 @@ class NeosPrefix extends PluginBase implements Listener
 			'돈 부족' => '칭호의 가격은 (가격)원 이지만, 당신은 (내돈)원을 가지고 있습니다',
 			'칭호 구매 완료' => '칭호 구매를 완료하였습니다: (칭호)',
 			'웅크리세요' => '칭호를 구매하려면 웅크리고 터치하세요',
-'			'명령어 도움말' => "칭호 설정 <유저> <칭호> | 해당 유저의 칭호를 설정합니다!\n §a§l[NeosPrefix] §r§f칭호 추가 <유저> <칭호> | 해당 유저에게 칭호를 추가합니다!\n §a§l[NeosPrefix] §r§f칭호 제거 <유저> <칭호> | 해당 유저에게 칭호를 제거합니다!\n §a§l[NeosPrefix] §r§f칭호 목록 <유저> | 해당 유저가 가지고 있는 칭호를 확인합니다!\n §a§l[NeosPrefix] §r§f칭호 한닉 <유저> <닉네임> | 해당 유저의 닉네임을 설정합니다!\n §a§l[NeosPrefix] §r§f칭호 티켓 <칭호> | 칭호 티켓을 생성합니다!\n §a§l[NeosPrefix] §r§f칭호 상점추가 <가격> <칭호> | 칭호 상점에 칭호를 추가합니다!\n §a§l[NeosPrefix] §r§f칭호 상점제거 <칭호> | 칭호 상점에서 칭호를 제거합니다!\n §a§l[NeosPrefix] §r§f칭호 자유칭호권 <이름> <최대 글자> <최대 색코드> | 새로운 자유칭호권을 만듭니다!"
+			'명령어 도움말' => "칭호 설정 <유저> <칭호> | 해당 유저의 칭호를 설정합니다!\n §a§l[NeosPrefix] §r§f칭호 추가 <유저> <칭호> | 해당 유저에게 칭호를 추가합니다!\n §a§l[NeosPrefix] §r§f칭호 제거 <유저> <칭호> | 해당 유저에게 칭호를 제거합니다!\n §a§l[NeosPrefix] §r§f칭호 목록 <유저> | 해당 유저가 가지고 있는 칭호를 확인합니다!\n §a§l[NeosPrefix] §r§f칭호 한닉 <유저> <닉네임> | 해당 유저의 닉네임을 설정합니다!\n §a§l[NeosPrefix] §r§f칭호 티켓 <칭호> | 칭호 티켓을 생성합니다!\n §a§l[NeosPrefix] §r§f칭호 상점추가 <가격> <칭호> | 칭호 상점에 칭호를 추가합니다!\n §a§l[NeosPrefix] §r§f칭호 상점제거 <칭호> | 칭호 상점에서 칭호를 제거합니다!\n §a§l[NeosPrefix] §r§f칭호 자유칭호권 <이름> <최대 글자> <최대 색코드> | 새로운 자유칭호권을 만듭니다!"
 	
 		]);
 			
