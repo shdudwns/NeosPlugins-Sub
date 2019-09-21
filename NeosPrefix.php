@@ -105,7 +105,7 @@ class NeosPrefix extends PluginBase implements Listener
 		$this->signbase = new Config($this->getDataFolder() . 'sign.json', Config::JSON);
 		$this->sign = $this->signbase->getAll();
 		
-				$this->msgbase = new Config($this->getDataFolder() . 'message.yml', Config::YAML, [
+		$this->msgbase = new Config($this->getDataFolder() . 'message.yml', Config::YAML, [
 		
 			'플러그인 칭호' => ' §a§l[NeosPrefix] §r§f',
 			'시스템 종료하기' => "§l시스템 종료하기\n§r§8팝업을 종료합니다",
