@@ -201,7 +201,7 @@ class NeosPrefix extends PluginBase implements Listener
 		$player->dataPacket ($packet);
 		
 	}
-
+ 
 	public function msgUI($player, $msg, $title = '')
 	{
 		if ($title === '') {
