@@ -72,11 +72,12 @@ class NeosPrefix extends PluginBase implements Listener
 
 	public function onEnable()
 	{
-		
-		$this->isLoaded = 'true';
+
+		$serverLang = (new Config(\pocketmine\DATA . "server.properties", Config::PROPERTIES))->get ('language');
 
 		$this->database = new Config($this->getDataFolder() . 'config.yml', Config::YAML, [
 		
+			'플러그인 언어 (language)' => $serverLang,
 			'채팅 타입' => '§6 『 §f(칭호) §r§6』 §f(닉네임)§r§f: (채팅색)(채팅)',
 			
 			'채팅 색' => [
@@ -102,8 +103,8 @@ class NeosPrefix extends PluginBase implements Listener
 		
 		$this->signbase = new Config($this->getDataFolder() . 'sign.json', Config::JSON);
 		$this->sign = $this->signbase->getAll();
-		
-		$this->msgbase = new Config($this->getDataFolder() . 'message.yml', Config::YAML, [
+
+		$this->koreanbase = new Config($this->getDataFolder() . 'message.yml', Config::YAML, [
 		
 			'플러그인 칭호' => ' §a§l[NeosPrefix] §r§f',
 			'UI 타이틀' => '§l【 네오스 칭호 시스템 】',
@@ -128,7 +129,9 @@ class NeosPrefix extends PluginBase implements Listener
 	
 		]);
 			
-		$this->m = $this->msgbase->getAll();
+		$this->korean = $this->koreanbase->getAll();
+				
+		$this->m = file_get_contents ($this->getDataFolder() . $this->db ['플러그인 언어 (language)'] . '.yml');
 		
 		$this->title = $this->m ['UI 타이틀'];
 		$this->addCommand (['칭호']);
