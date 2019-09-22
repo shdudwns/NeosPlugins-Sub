@@ -56,8 +56,6 @@ function getPosByString ($string)
 class NeosPrefix extends PluginBase implements Listener
 {
 	
-	public $title = '§l【 네오스 칭호 시스템 】';
-	
 	public $id = [
 	
 		1232135,
@@ -108,6 +106,7 @@ class NeosPrefix extends PluginBase implements Listener
 		$this->msgbase = new Config($this->getDataFolder() . 'message.yml', Config::YAML, [
 		
 			'플러그인 칭호' => ' §a§l[NeosPrefix] §r§f',
+			'UI 타이틀' => '§l【 네오스 칭호 시스템 】',
 			'시스템 종료하기' => "§l시스템 종료하기\n§r§8팝업을 종료합니다",
 			'칭호 상점' => [
 			
@@ -122,12 +121,16 @@ class NeosPrefix extends PluginBase implements Listener
 			'돈 부족' => '칭호의 가격은 (가격)원 이지만, 당신은 (내돈)원을 가지고 있습니다',
 			'칭호 구매 완료' => '칭호 구매를 완료하였습니다: (칭호)',
 			'웅크리세요' => '칭호를 구매하려면 웅크리고 터치하세요',
+			'티켓 사용 완료' => '티켓을 사용하여 칭호를 얻었습니다. 칭호 목록을 확인해주세요: (칭호)',
+			'기본 칭호 변경 완료' => '(플레이어)님의 기본 칭호를 변경하였습니다: (칭호)',
+			'칭호 미소유' => '(플레이어)님은 해당 칭호를 소유하고 있지 않습니다',
 			'명령어 도움말' => "칭호 설정 <유저> <칭호> | 해당 유저의 칭호를 설정합니다!\n §a§l[NeosPrefix] §r§f칭호 추가 <유저> <칭호> | 해당 유저에게 칭호를 추가합니다!\n §a§l[NeosPrefix] §r§f칭호 제거 <유저> <칭호> | 해당 유저에게 칭호를 제거합니다!\n §a§l[NeosPrefix] §r§f칭호 목록 <유저> | 해당 유저가 가지고 있는 칭호를 확인합니다!\n §a§l[NeosPrefix] §r§f칭호 한닉 <유저> <닉네임> | 해당 유저의 닉네임을 설정합니다!\n §a§l[NeosPrefix] §r§f칭호 티켓 <칭호> | 칭호 티켓을 생성합니다!\n §a§l[NeosPrefix] §r§f칭호 상점추가 <가격> <칭호> | 칭호 상점에 칭호를 추가합니다!\n §a§l[NeosPrefix] §r§f칭호 상점제거 <칭호> | 칭호 상점에서 칭호를 제거합니다!\n §a§l[NeosPrefix] §r§f칭호 자유칭호권 <이름> <최대 글자> <최대 색코드> | 새로운 자유칭호권을 만듭니다!"
 	
 		]);
 			
 		$this->m = $this->msgbase->getAll();
 		
+		$this->title = $this->m ['UI 타이틀'];
 		$this->addCommand (['칭호']);
 		
 		$pluginManager = $this->getServer()->getPluginManager();
@@ -161,19 +164,19 @@ class NeosPrefix extends PluginBase implements Listener
 		
 	}
 		
-    public function save()
-    {
+    	public function save()
+    	{
 
-        $this->database->setAll($this->db);
+        	$this->database->setAll($this->db);
 		$this->database->save();
 		
-        $this->playerbase->setAll($this->player);
+        	$this->playerbase->setAll($this->player);
 		$this->playerbase->save();
 		
-        $this->shopbase->setAll($this->shop);
+        	$this->shopbase->setAll($this->shop);
 		$this->shopbase->save();
 
-        $this->signbase->setAll($this->sign);
+        	$this->signbase->setAll($this->sign);
 		$this->signbase->save();
 		
 	}
@@ -476,7 +479,7 @@ class NeosPrefix extends PluginBase implements Listener
 			$prefix = $prefix->getValue();
 			
 			$this->addPrefix ($player, $prefix);
-			$this->msg ($player, '칭호 §6' . $prefix . ' §r§f(을)를 추가하였습니다! 칭호 목록을 확인하세요!');
+			$this->msg ($player, str_replace (["(칭호)"], [$prefix], $this->m ['티켓 사용 완료']));
 			
 			$player->getInventory()->removeItem ($item);
 
@@ -514,13 +517,14 @@ class NeosPrefix extends PluginBase implements Listener
 						if ($this->hasPrefix ($target, $prefix)) {
 							
 							$this->setMainPrefix ($target, $prefix);
-							$this->msg ($player, $target->getName() . '님의 기본 칭호를 ' . $prefix . '§r§f (으)로 설정되었습니다!');
+							$this->msg ($player, str_replace (['(플레이어)', '(칭호)'], [$target->getName(), $prefix], $this->m ['기본 칭호 변경 완료']));
 							
 							return true;
 							
 						} else {
 							
-							$this->msg ($player, $target->getName() . '님은 해당 칭호를 소유하고 있지 않습니다!');
+							
+							$this->msg ($player, str_replace (['(플레이어)'], [$target->getName()], $this->m ['칭호 미소유']));
 							return true;
 							
 						}
