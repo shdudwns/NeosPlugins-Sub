@@ -955,7 +955,7 @@ class NeosPrefix extends PluginBase implements Listener
 				
 				if ($this->hasPrefix ($player, $prefix)) {
 						
-					$this->msgUI ($player, '해당 칭호를 이미 소유하고 있습니다!');
+					$this->msgUI ($player, $this->m ['이미 칭호 소유']);
 					return true;
 						
 				}
