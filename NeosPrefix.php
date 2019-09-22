@@ -1,3 +1,5 @@
+<?php
+
 namespace NeosPrefix;
 
 use pocketmine\plugin\PluginBase;
@@ -104,8 +106,9 @@ class NeosPrefix extends PluginBase implements Listener
 		
 		$this->signbase = new Config($this->getDataFolder() . 'sign.json', Config::JSON);
 		$this->sign = $this->signbase->getAll();
-
-		$this->m = (array) json_decode (Internet::getURL ('https://raw.githubusercontent.com/neoskr/NeosPrefix/master/' . $this->db ['플러그인 언어 (language)'] . '.json'));
+		
+		$this->msgbase = new Config($this->getDataFolder() . 'messages.json', Config::JSON, (array) json_decode (Internet::getURL ('https://raw.githubusercontent.com/neoskr/NeosPrefix/master/' . $this->db ['플러그인 언어 (language)'] . '.json')));
+		$this->m = $this->msgbase->getAll();
 		
 		$this->title = $this->m ['UI 타이틀'];
 		$this->addCommand (['칭호']);
