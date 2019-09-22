@@ -1,3 +1,5 @@
+<?php
+
 namespace NeosPrefix;
 
 use pocketmine\plugin\PluginBase;
@@ -5,13 +7,13 @@ use pocketmine\event\Listener;
 
 use pocketmine\utils\Config;
 
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\Server;
 
-use pocketmine\item\Item;
-use pocketmine\block\Block;
+use pocketmine\item\{Item, ItemFactory};
+use pocketmine\block\{Block, BlockFactory};
 
-use pocketmine\level\Position;
+use pocketmine\worlr\Position;
 
 use pocketmine\math\Vector3;
 use pocketmine\utils\TextFormat;
@@ -41,7 +43,7 @@ use pocketmine\nbt\tag\StringTag;
 function getStringByPos ($pos)
 {
 
-    return $pos->getX() . ':' . $pos->getY() . ':' . $pos->getZ() . ':' . $pos->getLevel()->getFolderName();
+    return $pos->getX() . ':' . $pos->getY() . ':' . $pos->getZ() . ':' . $pos->getWorld()->getFolderName();
 
 }
 
@@ -49,7 +51,7 @@ function getPosByString ($string)
 {
 
     $pos = explode (':', $string);
-    return new Position ((float) $pos[0], (float) $pos[1], (float) $pos[2], Server::getInstance()->getLevelByName ($pos[3]));
+    return new Position ((float) $pos[0], (float) $pos[1], (float) $pos[2], Server::getInstance()->getWorldManager()->getWorldByName ($pos[3]));
 
 }
 
@@ -198,7 +200,7 @@ class NeosPrefix extends PluginBase implements Listener
 		$packet = new ModalFormRequestPacket();
 		$packet->formId = $code;
 		$packet->formData = json_encode ($data);
-		$player->dataPacket ($packet);
+		$player->getNetworkSession()->sendDataPacket ($packet);
 		
 	}
  
@@ -223,7 +225,7 @@ class NeosPrefix extends PluginBase implements Listener
 			]
 		]);
 		
-		$player->dataPacket ($packet);
+		$player->getNetworkSession()->sendDataPacket ($packet);
 	
 	}
 	
@@ -242,12 +244,12 @@ class NeosPrefix extends PluginBase implements Listener
 		$player = $event->getPlayer();
 
 		if ($event->isCancelled()) return true;
-		if ($player->isOp() && $event->getLine(0) === '[칭호상점]') {
+		if ($player->isOp() && $event->getNewText()->getLine(0) === '[칭호상점]') {
 			
-			$prefix = $event->getLine(1);
-			$price = (int) $event->getLine(2);
+			$prefix = $event->getNewText()->getLine(1);
+			$price = (int) $event->getNewText()->getLine(2);
 			
-			$this->sign [getStringByPos ($event->getBlock())] = [
+			$this->sign [getStringByPos ($event->getBlock()->getWorld())] = [
 			
 				'생성 시간' => time(),
 				'칭호' => $prefix,
@@ -257,7 +259,7 @@ class NeosPrefix extends PluginBase implements Listener
 			
 			foreach ([0,1,2,3] as $index) {
 
-				$event->setLine ($index, str_replace (['(칭호)', '(가격)'], [$prefix, number_format ($price)], $this->m ['칭호 상점'][$index]));
+				$event->getNewText()->setLine ($index, str_replace (['(칭호)', '(가격)'], [$prefix, number_format ($price)], $this->m ['칭호 상점'][$index]));
 
 			}
 			
@@ -278,9 +280,9 @@ class NeosPrefix extends PluginBase implements Listener
 
 		if ($block->getId() == Block::SIGN_POST || $block->getId() == Block::WALL_SIGN) {
 
-			if ($player->isOp() && isset ($this->sign [getStringByPos ($block)])) {
+			if ($player->isOp() && isset ($this->sign [getStringByPos ($block->getWorld())])) {
 				
-				unset ($this->sign [getStringByPos ($block)]);
+				unset ($this->sign [getStringByPos ($block->getWorld())]);
 				$this->msg ($player, $this->m ['상점 제거 완료']);
 				
 				return true;
