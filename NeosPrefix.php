@@ -3,6 +3,7 @@ namespace NeosPrefix;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 
+use pocketmine\utils\Internet;
 use pocketmine\utils\Config;
 
 use pocketmine\Player;
